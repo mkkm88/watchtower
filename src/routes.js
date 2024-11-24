@@ -2,27 +2,27 @@
 =========================================================
 * Material Dashboard 2 PRO React - v2.2.1
 =========================================================
-
+ 
 * Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
 * Copyright 2024 Creative Tim (https://www.creative-tim.com)
-
+ 
 Coded by www.creative-tim.com
-
+ 
  =========================================================
-
+ 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-/** 
+/**
   All of the routes for the Material Dashboard 2 PRO React are added here,
   You can add a new route, customize the routes and delete the routes here.
-
+ 
   Once you add a new route on this file it will be visible automatically on
   the Sidenav.
-
+ 
   For adding a new route you can follow the existing routes in the routes array.
   1. The `type` key with the `collapse` value is used for a route.
-  2. The `type` key with the `title` value is used for a title inside the Sidenav. 
+  2. The `type` key with the `title` value is used for a title inside the Sidenav.
   3. The `type` key with the `divider` value is used for a divider between Sidenav items.
   4. The `name` key is used for the name of the route on the Sidenav.
   5. The `key` key is used for the key of the route (It will help you with the key prop inside a loop).
@@ -52,7 +52,8 @@ import Charts from "layouts/pages/charts";
 import Notifications from "layouts/pages/notifications";
 import Kanban from "layouts/applications/kanban";
 import Wizard from "layouts/applications/wizard";
-import DataTables from "layouts/applications/data-tables";
+//import DataTables from "layouts/rules/data-tables";
+import DataTables from "layouts/ruleDefinition/data-tables";
 import Calendar from "layouts/applications/calendar";
 import NewProduct from "layouts/ecommerce/products/new-product";
 import EditProduct from "layouts/ecommerce/products/edit-product";
@@ -64,6 +65,8 @@ import SignInCover from "layouts/authentication/sign-in/cover";
 import SignInIllustration from "layouts/authentication/sign-in/illustration";
 import SignUpCover from "layouts/authentication/sign-up/cover";
 import ResetCover from "layouts/authentication/reset-password/cover";
+import Feeds from "layouts/pages/feeds";
+import Monitors from "layouts/pages/monitors";
 
 // Material Dashboard 2 PRO React components
 import MDAvatar from "components/MDAvatar";
@@ -125,175 +128,275 @@ const routes = [
   { type: "title", title: "Pages", key: "title-pages" },
   {
     type: "collapse",
-    name: "Pages",
-    key: "pages",
+    name: "Feeds",
+    key: "Feeds",
+    icon: <Icon fontSize="medium">image</Icon>,
+    collapse: [
+      // {
+      //   name: "Profile",
+      //   key: "profile",
+      //   collapse: [
+      //     {
+      //       name: "Profile Overview",
+      //       key: "profile-overview",
+      //       route: "/pages/profile/profile-overview",
+      //       component: <ProfileOverview />,
+      //     },
+      //     {
+      //       name: "All Projects",
+      //       key: "all-projects",
+      //       route: "/pages/profile/all-projects",
+      //       component: <AllProjects />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: "Users",
+      //   key: "users",
+      //   collapse: [
+      //     {
+      //       name: "New User",
+      //       key: "new-user",
+      //       route: "/pages/users/new-user",
+      //       component: <NewUser />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: "Account",
+      //   key: "account",
+      //   collapse: [
+      //     {
+      //       name: "Settings",
+      //       key: "settings",
+      //       route: "/pages/account/settings",
+      //       component: <Settings />,
+      //     },
+      //     {
+      //       name: "Billing",
+      //       key: "billing",
+      //       route: "/pages/account/billing",
+      //       component: <Billing />,
+      //     },
+      //     {
+      //       name: "Invoice",
+      //       key: "invoice",
+      //       route: "/pages/account/invoice",
+      //       component: <Invoice />,
+      //     },
+      //   ],
+      // },
+      // {
+      //   name: "Projects",
+      //   key: "projects",
+      //   collapse: [
+      //     {
+      //       name: "Timeline",
+      //       key: "timeline",
+      //       route: "/pages/projects/timeline",
+      //       component: <Timeline />,
+      //     },
+      //   ],
+      // },
+      {
+        name: "Feeds",
+        key: "Feeds",
+        route: "/pages/feeds",
+        component: <Feeds />,
+      },
+      // { name: "RTL", key: "rtl", route: "/pages/rtl", component: <RTL /> },
+      // { name: "Widgets", key: "widgets", route: "/pages/widgets", component: <Widgets /> },
+      // { name: "Charts", key: "charts", route: "/pages/charts", component: <Charts /> },
+      {
+        name: "Monitors",
+        key: "notifications",
+        route: "/pages/monitors",
+        component: <Monitors />,
+      },
+      {
+        name: "Monitor Conditions",
+        key: "charts",
+        route: "/pages/charts",
+        component: <Charts />,
+      },
+    ],
+  },
+  {
+    type: "collapse",
+    name: "Rules",
+    key: "Rules",
     icon: <Icon fontSize="medium">image</Icon>,
     collapse: [
       {
-        name: "Profile",
-        key: "profile",
-        collapse: [
-          {
-            name: "Profile Overview",
-            key: "profile-overview",
-            route: "/pages/profile/profile-overview",
-            component: <ProfileOverview />,
-          },
-          {
-            name: "All Projects",
-            key: "all-projects",
-            route: "/pages/profile/all-projects",
-            component: <AllProjects />,
-          },
-        ],
+        name: "Rules",
+        key: "rules",
+        route: "/rules/data-tables", //inside layout folder
+        component: <DataTables />,
       },
+
       {
-        name: "Users",
-        key: "users",
-        collapse: [
-          {
-            name: "New User",
-            key: "new-user",
-            route: "/pages/users/new-user",
-            component: <NewUser />,
-          },
-        ],
+        name: "Rule Definitions",
+        key: "data-tables",
+        route: "/ruleDefinition/data-tables", //inside layout folder
+        component: <DataTables />,
       },
+    ],
+  },
+  {
+    type: "collapse",
+    name: "Configurations",
+    key: "Configurations",
+    icon: <Icon fontSize="medium">image</Icon>,
+    collapse: [
       {
-        name: "Account",
-        key: "account",
-        collapse: [
-          {
-            name: "Settings",
-            key: "settings",
-            route: "/pages/account/settings",
-            component: <Settings />,
-          },
-          {
-            name: "Billing",
-            key: "billing",
-            route: "/pages/account/billing",
-            component: <Billing />,
-          },
-          {
-            name: "Invoice",
-            key: "invoice",
-            route: "/pages/account/invoice",
-            component: <Invoice />,
-          },
-        ],
-      },
-      {
-        name: "Projects",
-        key: "projects",
-        collapse: [
-          {
-            name: "Timeline",
-            key: "timeline",
-            route: "/pages/projects/timeline",
-            component: <Timeline />,
-          },
-        ],
-      },
-      {
-        name: "Pricing Page",
-        key: "pricing-page",
+        name: "Configurations",
+        key: "Configurations",
         route: "/pages/pricing-page",
         component: <PricingPage />,
       },
-      { name: "RTL", key: "rtl", route: "/pages/rtl", component: <RTL /> },
-      { name: "Widgets", key: "widgets", route: "/pages/widgets", component: <Widgets /> },
-      { name: "Charts", key: "charts", route: "/pages/charts", component: <Charts /> },
+
       {
-        name: "Notfications",
-        key: "notifications",
+        name: "Templates",
+        key: "Templates",
         route: "/pages/notifications",
         component: <Notifications />,
       },
-    ],
-  },
-  {
-    type: "collapse",
-    name: "Applications",
-    key: "applications",
-    icon: <Icon fontSize="medium">apps</Icon>,
-    collapse: [
       {
-        name: "Kanban",
-        key: "kanban",
-        route: "/applications/kanban",
-        component: <Kanban />,
-      },
-      {
-        name: "Wizard",
-        key: "wizard",
-        route: "/applications/wizard",
-        component: <Wizard />,
-      },
-      {
-        name: "Data Tables",
-        key: "data-tables",
-        route: "/applications/data-tables",
-        component: <DataTables />,
-      },
-      {
-        name: "Calendar",
-        key: "calendar",
-        route: "/applications/calendar",
-        component: <Calendar />,
+        name: "Group Config",
+        key: "Group Config",
+        route: "/pages/charts",
+        component: <Charts />,
       },
     ],
   },
   {
     type: "collapse",
-    name: "Ecommerce",
-    key: "ecommerce",
-    icon: <Icon fontSize="medium">shopping_basket</Icon>,
+    name: "Parameters",
+    key: "Parameters",
+    icon: <Icon fontSize="medium">image</Icon>,
     collapse: [
       {
-        name: "Products",
-        key: "products",
-        collapse: [
-          {
-            name: "New Product",
-            key: "new-product",
-            route: "/ecommerce/products/new-product",
-            component: <NewProduct />,
-          },
-          {
-            name: "Edit Product",
-            key: "edit-product",
-            route: "/ecommerce/products/edit-product",
-            component: <EditProduct />,
-          },
-          {
-            name: "Product Page",
-            key: "product-page",
-            route: "/ecommerce/products/product-page",
-            component: <ProductPage />,
-          },
-        ],
-      },
-      {
-        name: "Orders",
-        key: "orders",
-        collapse: [
-          {
-            name: "Order List",
-            key: "order-list",
-            route: "/ecommerce/orders/order-list",
-            component: <OrderList />,
-          },
-          {
-            name: "Order Details",
-            key: "order-details",
-            route: "/ecommerce/orders/order-details",
-            component: <OrderDetails />,
-          },
-        ],
+        name: "Parameters",
+        key: "Parameters",
+        route: "/pages/pricing-page",
+        component: <PricingPage />,
       },
     ],
   },
+  // {
+  //   type: "collapse",
+  //   name: "Applications",
+  //   key: "applications",
+  //   icon: <Icon fontSize="medium">apps</Icon>,
+  //   collapse: [
+  //     {
+  //       name: "Kanban",
+  //       key: "kanban",
+  //       route: "/applications/kanban",
+  //       component: <Kanban />,
+  //     },
+  //     {
+  //       name: "Wizard",
+  //       key: "wizard",
+  //       route: "/applications/wizard",
+  //       component: <Wizard />,
+  //     },
+  //     {
+  //       name: "Data Tables",
+  //       key: "data-tables",
+  //       route: "/applications/data-tables",
+  //       component: <DataTables />,
+  //     },
+  //     {
+  //       name: "Calendar",
+  //       key: "calendar",
+  //       route: "/applications/calendar",
+  //       component: <Calendar />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Applications",
+  //   key: "applications",
+  //   icon: <Icon fontSize="medium">apps</Icon>,
+  //   collapse: [
+  //     {
+  //       name: "Kanban",
+  //       key: "kanban",
+  //       route: "/applications/kanban",
+  //       component: <Kanban />,
+  //     },
+  //     {
+  //       name: "Wizard",
+  //       key: "wizard",
+  //       route: "/applications/wizard",
+  //       component: <Wizard />,
+  //     },
+  //     {
+  //       name: "Data Tables",
+  //       key: "data-tables",
+  //       route: "/applications/data-tables",
+  //       component: <DataTables />,
+  //     },
+  //     {
+  //       name: "Calendar",
+  //       key: "calendar",
+  //       route: "/applications/calendar",
+  //       component: <Calendar />,
+  //     },
+  //   ],
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "Ecommerce",
+  //   key: "ecommerce",
+  //   icon: <Icon fontSize="medium">shopping_basket</Icon>,
+  //   collapse: [
+  //     {
+  //       name: "Products",
+  //       key: "products",
+  //       collapse: [
+  //         {
+  //           name: "New Product",
+  //           key: "new-product",
+  //           route: "/ecommerce/products/new-product",
+  //           component: <NewProduct />,
+  //         },
+  //         {
+  //           name: "Edit Product",
+  //           key: "edit-product",
+  //           route: "/ecommerce/products/edit-product",
+  //           component: <EditProduct />,
+  //         },
+  //         {
+  //           name: "Product Page",
+  //           key: "product-page",
+  //           route: "/ecommerce/products/product-page",
+  //           component: <ProductPage />,
+  //         },
+  //       ],
+  //     },
+  //     {
+  //       name: "Orders",
+  //       key: "orders",
+  //       collapse: [
+  //         {
+  //           name: "Order List",
+  //           key: "order-list",
+  //           route: "/ecommerce/orders/order-list",
+  //           component: <OrderList />,
+  //         },
+  //         {
+  //           name: "Order Details",
+  //           key: "order-details",
+  //           route: "/ecommerce/orders/order-details",
+  //           component: <OrderDetails />,
+  //         },
+  //       ],
+  //     },
+  //   ],
+  // },
   {
     type: "collapse",
     name: "Authentication",

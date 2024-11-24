@@ -1,20 +1,9 @@
-/**
-=========================================================
-* Material Dashboard 2 PRO React - v2.2.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/material-dashboard-pro-react
-* Copyright 2024 Creative Tim (https://www.creative-tim.com)
-
-Coded by www.creative-tim.com
-
- =========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-*/
-
 // @mui material components
-import Grid from "@mui/material/Grid";
+import React, { useEffect, useState } from "react";
+import Card from "@mui/material/Card";
+import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 // Material Dashboard 2 PRO React components
 import MDBox from "components/MDBox";
@@ -24,155 +13,99 @@ import MDTypography from "components/MDTypography";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 import Footer from "examples/Footer";
-import DefaultLineChart from "examples/Charts/LineCharts/DefaultLineChart";
-import GradientLineChart from "examples/Charts/LineCharts/GradientLineChart";
-import VerticalBarChart from "examples/Charts/BarCharts/VerticalBarChart";
-import HorizontalBarChart from "examples/Charts/BarCharts/HorizontalBarChart";
-import MixedChart from "examples/Charts/MixedChart";
-import BubbleChart from "examples/Charts/BubbleChart";
-import DefaultDoughnutChart from "examples/Charts/DoughnutCharts/DefaultDoughnutChart";
-import PieChart from "examples/Charts/PieChart";
-import RadarChart from "examples/Charts/RadarChart";
-import PolarChart from "examples/Charts/PolarChart";
-
-// Data
-import defaultLineChartData from "layouts/pages/charts/data/defaultLineChartData";
-import gradientLineChartData from "layouts/pages/charts/data/gradientLineChartData";
-import verticalBarChartData from "layouts/pages/charts/data/verticalBarChartData";
-import horizontalBarChartData from "layouts/pages/charts/data/horizontalBarChartData";
-import mixedChartData from "layouts/pages/charts/data/mixedChartData";
-import bubbleChartData from "layouts/pages/charts/data/bubbleChartData";
-import defaultDoughnutChartData from "layouts/pages/charts/data/defaultDoughnutChartData";
-import pieChartData from "layouts/pages/charts/data/pieChartData";
-import radarChartData from "layouts/pages/charts/data/radarChartData";
-import polarChartData from "layouts/pages/charts/data/polarChartData";
+import DataTable from "examples/Tables/DataTable";
 
 function Charts() {
+  // State to store the data from the API
+  const [dataTableData, setDataTableData] = useState({
+    columns: [
+      { Header: "Group Config Id", accessor: "groupConfigId" },
+      { Header: "Group Name", accessor: "groupName" },
+      { Header: "Group Value", accessor: "groupValue" },
+      { Header: "Group Type", accessor: "groupType", width: "20%" },
+      { Header: "Description", accessor: "description", width: "20%" },
+      { Header: "Action", accessor: "action", width: "20%" },
+    ],
+    rows: [],
+  });
+
+  // Fetch data from the API when the component mounts
+  useEffect(() => {
+    const fetchData = async () => {
+      const basicAuth = "Basic " + btoa("Administrator:manageaudit");
+
+      try {
+        const response = await fetch(
+          "http://localhost:5555/rad/BInRestInterface.restful.provider:configuration/groupConfig/all",
+          {
+            method: "POST", // Use the required method
+            headers: {
+              Authorization: basicAuth,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({}), // Include a request body if required
+          }
+        ); // Replace with your actual API URL
+        const data = await response.json();
+
+        // Map the API response to the format expected by the DataTable
+        const rows = data.groupConfigs.map((groupConfig) => ({
+          groupConfigId: groupConfig.groupConfigId,
+          groupName: groupConfig.groupName,
+          groupValue: groupConfig.groupValue,
+          groupType: groupConfig.groupType,
+          description: groupConfig.description,
+          action: (
+            <MDBox display="flex" justifyContent="space-evenly">
+              <IconButton color="primary" onClick={() => handleEdit(groupConfig.groupConfigId)}>
+                <EditIcon />
+              </IconButton>
+              <IconButton color="secondary" onClick={() => handleDelete(groupConfig.groupConfigId)}>
+                <DeleteIcon />
+              </IconButton>
+            </MDBox>
+          ),
+        }));
+
+        setDataTableData((prevData) => ({
+          ...prevData,
+          rows: rows,
+        }));
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, []); // Empty dependency array means this runs once when the component is mounted
+
+  // Function to handle editing
+  const handleEdit = (id) => {
+    console.log("Edit clicked for ID:", id);
+    // Add your edit logic here
+  };
+
+  // Function to handle deletion
+  const handleDelete = (id) => {
+    console.log("Delete clicked for ID:", id);
+    // Add your delete logic here
+  };
+
   return (
     <DashboardLayout>
       <DashboardNavbar />
-      <MDBox my={3}>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} sx={{ lineHeight: 0 }}>
-              <MDTypography variant="h5">Charts</MDTypography>
-              <MDTypography variant="button" color="text">
-                Charts on this page use Chart.js - Simple yet flexible JavaScript charting for
-                designers & developers.
-              </MDTypography>
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox mb={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <DefaultLineChart
-                icon={{ component: "insights" }}
-                title="Line chart"
-                height="20rem"
-                description="Product insights"
-                chart={defaultLineChartData}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <GradientLineChart
-                icon={{ component: "show_chart" }}
-                title="Line chart with gradient"
-                height="20rem"
-                description="Visits from devices"
-                chart={gradientLineChartData}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox mb={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <VerticalBarChart
-                icon={{ color: "dark", component: "leaderboard" }}
-                title="Bar chart"
-                height="20rem"
-                description="Sales related to age average"
-                chart={verticalBarChartData}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <HorizontalBarChart
-                icon={{ color: "dark", component: "splitscreen" }}
-                title="Bar chart horizontal"
-                height="20rem"
-                description="Sales related to age average"
-                chart={horizontalBarChartData}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox mb={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <MixedChart
-                icon={{ color: "primary", component: "auto_graph" }}
-                title="Mixed chart"
-                height="20rem"
-                description="Analytics Insights"
-                chart={mixedChartData}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <BubbleChart
-                icon={{ color: "primary", component: "multiline_chart" }}
-                title="Bubble chart"
-                height="20rem"
-                description="Users divided by regions"
-                chart={bubbleChartData}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox mb={6}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <DefaultDoughnutChart
-                icon={{ color: "success", component: "donut_small" }}
-                title="Doughnut chart"
-                height="20rem"
-                description="Affiliates program"
-                chart={defaultDoughnutChartData}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <PieChart
-                icon={{ color: "success", component: "donut_small" }}
-                title="Pie chart"
-                height="20rem"
-                description="Analytics Insights"
-                chart={pieChartData}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
-        <MDBox mb={3}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6}>
-              <RadarChart
-                icon={{ color: "warning", component: "data_saver_on" }}
-                title="Radar chart"
-                height="32rem"
-                description="Sciences score"
-                chart={radarChartData}
-              />
-            </Grid>
-            <Grid item xs={12} md={6}>
-              <PolarChart
-                icon={{ color: "warning", component: "scatter_plot" }}
-                title="Polar chart"
-                height="32rem"
-                description="Analytics Insights"
-                chart={polarChartData}
-              />
-            </Grid>
-          </Grid>
-        </MDBox>
+      <MDBox pt={6} pb={3}>
+        <Card>
+          <MDBox p={3} lineHeight={1}>
+            <MDTypography variant="h5" fontWeight="medium">
+              Group Config
+            </MDTypography>
+            <MDTypography variant="button" color="text">
+              A lightweight, extendable, dependency-free javascript HTML table plugin.
+            </MDTypography>
+          </MDBox>
+          <DataTable table={dataTableData} canSearch />
+        </Card>
       </MDBox>
       <Footer />
     </DashboardLayout>
